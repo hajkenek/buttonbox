@@ -1,32 +1,50 @@
- areWeMuted() {
-        return (this.muteButton.getAttribute("aria-checked") === 'true');
+/**
+ * @name Mic muted 
+ * @authors JoyEn12#7075 and hajkenek#2673
+ * @description Very simple Mic Muted app for our arduino best app xD
+ * @version 0.0.1
+ */
+
+ 
+
+module.exports = class Muted {
+
+    start() {
+        this.mainLoopInterval = setInterval(this.checkMuteButton.bind(this), 500);
+
+        console.log("Script", "Loaded");
     }
 
- checkMuteButton() {
-        // Find the mute button
+    checkMuteButton() {
         let muteButtons = document.querySelectorAll('[aria-label="Mute"]');
-        if (muteButtons.length != 1) {
-            throw "Failed to load. Couldn't find the mute button.";
+        if (muteButtons.length !=1) {
+            console.log( "WARNING: Couldn't find the mute button.");
         }
         const muteButton = muteButtons[0];
-
-        // Little function to return true/false based on mute button state
-        const areWeMuted = () => (muteButton.getAttribute("aria-checked") === 'true');
-
-        // Initialize data if we haven't done so yet
-        if (this.lastMutedState == undefined) {
-            this.lastMutedState = areWeMuted();
+        let x = muteButton.getAttribute("aria-checked");
+        if (x==="true")
+        {
+            console.log("Muted")
         }
+    }
+    
 
-        // Only arm/disarm on rising/falling edge
-        const newMutedState = areWeMuted();
-        if (this.lastMutedState == newMutedState) {
-            // do nothing; muted state hasn't changed
-            return;
-        }
 
-        // Update the button state
-        this.lastMutedState = newMutedState;
+
+    stop() {
+
+        clearInterval(this.mainLoopInterval);
+        console.log("Script", "Unloaded");
+    }
+
+} 
+    
+
+    
+
+
+
+
 
        
-    }   
+    
